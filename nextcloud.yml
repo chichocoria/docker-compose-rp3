@@ -16,7 +16,7 @@ services:
       - 4433:443
     restart: unless-stopped
 
- db:
+  db:
     image: yobasystems/alpine-mariadb:arm32v7
     container_name: nextcloud_db
     restart: always
@@ -34,6 +34,6 @@ services:
       - ./mysql:/var/lib/mysql
 
 networks:
-  nexcloud:
+  nextcloud:
     name: nextcloud
     driver: bridge
