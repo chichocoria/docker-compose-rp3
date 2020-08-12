@@ -1,0 +1,39 @@
+version: "2.1"
+services:
+  nextcloud:
+    image: linuxserver/nextcloud
+    container_name: nextcloud
+    networks:
+      - nextcloud
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=Europe/London
+    volumes:
+      - ./nextcloud:/config
+      - /nextcloud/data:/data
+    ports:
+      - 4433:443
+    restart: unless-stopped
+
+ db:
+    image: yobasystems/alpine-mariadb:arm32v7
+    container_name: nextcloud_db
+    restart: always
+    networks:
+      - nextcloud
+    environment:
+      - PUID=998
+      - PGID=100
+      - TZ=Europe/Madrid
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=password
+    volumes:
+      - ./mysql:/var/lib/mysql
+
+networks:
+  nexcloud:
+    name: nextcloud
+    driver: bridge
